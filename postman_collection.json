@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "Inventory & Data Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api/products" },
+    { "key": "id", "value": "PASTE_PRODUCT_ID_HERE" }
+  ],
+  "item": [
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Gel Pen Pack of 15\",\n  \"sku\": \"STNY-PN-713\",\n  \"category\": \"Stationery\",\n  \"price\": 120,\n  \"quantity\": 40,\n  \"reorderLevel\": 20,\n  \"supplier\": \"Cello Pens\"\n}"
+        }
+      }
+    },
+    { "name": "Get All Products", "request": { "method": "GET", "url": "{{baseUrl}}" } },
+    {
+      "name": "Get Products (filter + sort + paginate)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}?category=Electronics&minPrice=500&sort=-price&page=1&limit=5"
+      }
+    },
+    { "name": "Get Product by ID", "request": { "method": "GET", "url": "{{baseUrl}}/{{id}}" } },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/{{id}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Gel Pen Pack of 15\",\n  \"sku\": \"STNY-PN-713\",\n  \"category\": \"Stationery\",\n  \"price\": 140,\n  \"quantity\": 60\n}"
+        }
+      }
+    },
+    {
+      "name": "Restock (+10)",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/{{id}}/stock",
+        "body": { "mode": "raw", "raw": "{ \"change\": 10 }" }
+      }
+    },
+    {
+      "name": "Sale (-3)",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/{{id}}/stock",
+        "body": { "mode": "raw", "raw": "{ \"change\": -3 }" }
+      }
+    },
+    { "name": "Delete Product", "request": { "method": "DELETE", "url": "{{baseUrl}}/{{id}}" } },
+    { "name": "Low-Stock Report", "request": { "method": "GET", "url": "{{baseUrl}}/low-stock" } },
+    { "name": "Category Summary", "request": { "method": "GET", "url": "{{baseUrl}}/summary" } }
+  ]
+}
